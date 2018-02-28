@@ -17,14 +17,15 @@ app.get('/', (req, res) => {
 	    book["buys"] = orderbookSync.books['BTC-USD'].state().bids.reduce(function(seed, price) {
 	    let number = roundDown(Number(price.price), -1)
 	    if (currentPrice - 500 <= number && number < currentPrice || currentPrice + 500 >= number && number > currentPrice) {
-		seed[number] = seed[number] ? seed[number] + 1 : 1;
-	    }
+		seed[number] = seed[number] ? String(Number(seed[number].split(" ")[0]) + 1) + " " +  String((Number(seed[number].split(" ")[1]) + Number(price.size)).toFixed(2)) : "1" + " " + String(Number(price.size).toFixed(2))
+		}
+	    
 	    return seed;
 	    }, {});
 	    book["sells"] = orderbookSync.books['BTC-USD'].state().asks.reduce(function(seed, price) {
 		let number = Math.round(Number(price.price) / 10) * 10;
 		if (currentPrice - 500 <= number && number < currentPrice || currentPrice + 500 >= number && number > currentPrice) {
-		    seed[number] = seed[number] ? seed[number] + 1 : 1;
+		    seed[number] = seed[number] ? String(Number(seed[number].split(" ")[0]) + 1) + " " +  String((Number(seed[number].split(" ")[1]) + Number(price.size)).toFixed(2)) : "1" + " " + String(Number(price.size).toFixed(2))
 		}
 		return seed;
 	    }, {});
